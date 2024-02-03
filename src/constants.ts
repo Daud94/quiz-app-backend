@@ -1,0 +1,2 @@
+const SEQUELIZE = "SEQUELIZE";
+export { SEQUELIZE };
