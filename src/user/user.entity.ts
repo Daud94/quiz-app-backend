@@ -1,32 +1,41 @@
-import { Column, Model, Table } from "sequelize-typescript";
+import { BeforeCreate, Column, Model, Table } from "sequelize-typescript";
 import { DataTypes } from "sequelize";
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from "bcrypt";
+import { Exclude } from "class-transformer";
+import { hash } from "../utils/util";
 
 
 @Table
 export class User extends Model {
   @Column({
-    type: DataTypes.STRING
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
   })
-  firstName: string
+  userId: string;
 
   @Column({
     type: DataTypes.STRING
   })
-  lastName: string
+  firstName: string;
 
   @Column({
     type: DataTypes.STRING
   })
-  email: string
+  lastName: string;
 
+  @Column({
+    type: DataTypes.STRING
+  })
+  email: string;
+
+  @Exclude()
   @Column({
     type: DataTypes.STRING,
-    async set(value){
-      // @ts-ignore
-      const hash = bcrypt.hash(value, process.env["SALT_OR_ROUNDS "])
-      this.setDataValue('password',hash)
-    }
   })
-  password: string
+  password: string;
+
+  @BeforeCreate
+  static async hashPassword(instance: User) {
+    instance.password = await hash(instance.password)
+  }
 }

@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
 import { SEQUELIZE } from "../constants";
 import * as dotenv from 'dotenv';
+import { User } from "../user/user.entity";
 dotenv.config()
 
 const {
@@ -17,7 +18,6 @@ const {
 } = process.env
 
 const isProduction = NODE_ENV === "production"
-console.log(isProduction);
 export const databaseProviders = [
   {
     provide: SEQUELIZE,
@@ -30,7 +30,9 @@ export const databaseProviders = [
         password: isProduction ? PROD_PASSWORD : DEV_PASSWORD,
         database: DATABASE_NAME,
       });
-      sequelize.addModels([]);
+      sequelize.addModels([
+        User
+      ]);
       await sequelize
         .authenticate()
         .then(() => {
