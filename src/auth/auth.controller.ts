@@ -13,13 +13,13 @@ export class AuthController {
   }
 
   @Public()
-  @Post('signup')
+  @Post('user/signup')
   @ApiBody({ type: CreateUserDto })
   async signup(@Body() userData: CreateUserDto) {
     return await this.authService.signup(userData);
   }
   @Public()
-  @Post('signin')
+  @Post('user/signin')
   @ApiBody({ type: UserLoginDto})
   async signin(@Body() userData: UserLoginDto) {
     return await this.authService.signin(userData);

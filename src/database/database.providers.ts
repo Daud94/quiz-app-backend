@@ -2,6 +2,8 @@ import { Sequelize } from "sequelize-typescript";
 import { SEQUELIZE } from "../constants";
 import * as dotenv from 'dotenv';
 import { User } from "../user/user.entity";
+import { Admin } from "../admin/admin.entity";
+import { Role } from "../iam/role/role.entity";
 dotenv.config()
 
 const {
@@ -31,7 +33,9 @@ export const databaseProviders = [
         database: DATABASE_NAME,
       });
       sequelize.addModels([
-        User
+        User,
+        Admin,
+        Role
       ]);
       await sequelize
         .authenticate()
