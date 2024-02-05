@@ -4,19 +4,7 @@ import { ApiProperty } from "@nestjs/swagger";
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
 
-export class CreateAdminDto {
-  @ApiProperty()
-  @IsNotEmpty({ message: "Provide your first name" })
-  firstName: string;
-
-  @ApiProperty()
-  @IsNotEmpty({ message: "Provide your last name" })
-  lastName: string;
-
-  @ApiProperty()
-  @IsNotEmpty({ message: "Role can not be empty" })
-  role: string;
-
+export class AdminLoginDto {
   @ApiProperty()
   @IsNotEmpty({ message: "Email can not be empty" })
   @IsEmail()

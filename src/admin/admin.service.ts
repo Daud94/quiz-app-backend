@@ -2,11 +2,10 @@ import { ADMIN_REPOSITORY } from "../constants";
 import { Admin } from "./admin.entity";
 import { Inject, Injectable } from "@nestjs/common";
 import { CreateAdminDto } from "./dto/createAdmin.dto";
-import { User } from "../user/user.entity";
 
 
 @Injectable()
-export class adminService {
+export class AdminService {
   constructor(
     @Inject(ADMIN_REPOSITORY) adminRepo: typeof Admin
   ) {
@@ -16,7 +15,7 @@ export class adminService {
   }
 
   async findOneByEmail(email: string){
-    return await User.findOne({
+    return await Admin.findOne({
       where: {
         email: email
       }

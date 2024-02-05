@@ -7,6 +7,7 @@ import { hash } from "../utils/util";
 
 @Table
 export class Admin extends Model {
+
   @Column({
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,

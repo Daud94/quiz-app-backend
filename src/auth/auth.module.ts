@@ -4,6 +4,10 @@ import { UsersService } from "../user/users.service";
 import { usersProviders } from "../user/users.providers";
 import { AuthController } from "./auth.controller";
 import { JwtModule, JwtService } from "@nestjs/jwt";
+import { AdminService } from "../admin/admin.service";
+import { adminProviders } from "../admin/admin.providers";
+import { rolesProviders } from "../iam/role/roles.providers";
+import { RoleService } from "../iam/role/role.service";
 require("dotenv").config();
 @Module({
   imports: [
@@ -14,10 +18,14 @@ require("dotenv").config();
     }),
   ],
   providers: [
+    RoleService,
+    AdminService,
     JwtService,
     AuthService,
     UsersService,
-    ...usersProviders
+    ...usersProviders,
+    ...adminProviders,
+    ...rolesProviders
   ],
   exports: [AuthService],
   controllers: [AuthController]
