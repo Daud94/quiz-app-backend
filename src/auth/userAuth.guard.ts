@@ -11,7 +11,7 @@ import { IS_PUBLIC_KEY } from "../decorators/public.decorators";
 require('dotenv').config()
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class UserAuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     private reflector: Reflector

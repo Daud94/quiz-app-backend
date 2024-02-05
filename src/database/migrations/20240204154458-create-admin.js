@@ -10,8 +10,9 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       adminId: {
-        type: Sequelize.STRING,
-        unique: true
+        type: Sequelize.UUID,
+        unique: true,
+        defaultValue: Sequelize.UUIDV4
       },
 
       firstName: {
@@ -32,7 +33,8 @@ module.exports = {
         allowNull: false,
       },
       role: {
-
+        type: Sequelize.STRING,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
