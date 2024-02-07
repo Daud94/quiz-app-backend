@@ -1,7 +1,6 @@
-import { AfterFind, BeforeCreate, Column, Model, Table } from "sequelize-typescript";
+import {Column, Model, Table } from "sequelize-typescript";
 import { DataTypes } from "sequelize";
-import { hash } from "../utils/util";
-import { encrypt } from "../helper/encryption";
+
 
 @Table
 export class Question extends Model{
