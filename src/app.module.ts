@@ -9,6 +9,10 @@ import { JwtModule } from "@nestjs/jwt";
 import { APP_GUARD } from "@nestjs/core";
 import { UserAuthGuard } from "./auth/userAuth.guard";
 import { AdminModule } from './admin/admin.module';
+import { RolesGuard } from "./iam/role/roles.guard";
+import { AdminAuthGuard } from "./auth/adminAuth.guard";
+import { QuestionModule } from './question/question.module';
+import { AttemptModule } from './attempt/attempt.module';
 
 @Module({
   imports: [
@@ -17,6 +21,8 @@ import { AdminModule } from './admin/admin.module';
     DatabaseModule,
     AuthModule,
     AdminModule,
+    QuestionModule,
+    AttemptModule,
   ],
   controllers: [AppController],
   providers: [

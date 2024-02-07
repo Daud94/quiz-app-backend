@@ -1,6 +1,7 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { VersioningType } from "@nestjs/common";
 
 require("dotenv").config();
 
@@ -23,6 +24,11 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api", app, document);
+
+  app.enableVersioning({
+    type: VersioningType.URI,
+    // prefix: '/api'
+  });
 
   await app.listen(isProduction
     ? parseInt(process.env["PROD_API_PORT"])

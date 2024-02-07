@@ -50,7 +50,7 @@ export class AuthService {
     if (admin) {
       throw new ConflictException("Admin exists with the email");
     }
-    await this.usersService.createUser(reqBody);
+    await this.adminService.createAdmin(reqBody);
     return { success: true, message: "Signup successful" };
   }
 
@@ -66,7 +66,9 @@ export class AuthService {
     }
 
     const role = await this.roleService.findRoleByName(admin.role)
-
+    if (!role){
+      throw new BadRequestException('Invalid role')
+    }
     const payload = {adminId: admin.adminId, permissions: role.permissions}
     const token = await this.jwtService.signAsync(payload,{secret: process.env['JWT_SECRET']})
     return {success: true, message: 'You are signed in!', accessToken : token}

@@ -17,7 +17,7 @@ export class RoleService {
   async findRoleByName(name: string) {
     return await Role.findOne({
       where: {
-        name
+        name: name
       }
     });
   }
