@@ -7,18 +7,22 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.BIGINT
       },
       question: {
         type: Sequelize.TEXT,
         allowNull: false
       },
       type:{
-        type: Sequelize.ENUM(['TRUE_OR_FALSE','MULTIPLE_CHOICE']),
+        type: Sequelize.ENUM('TRUE_OR_FALSE','MULTIPLE_CHOICE'),
         allowNull: false
       },
       options: {
-        type: Sequelize.JSON,
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: false
+      },
+      correctOption: {
+        type:Sequelize.STRING,
         allowNull: false
       },
       mark: {
