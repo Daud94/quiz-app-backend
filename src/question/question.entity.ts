@@ -30,9 +30,4 @@ export class Question extends Model{
   })
   mark: number
 
-  @AfterFind
-  static async hashPassword(instance: Question) {
-    instance.correctOption = await encrypt(instance.correctOption)
-  }
-
 }
