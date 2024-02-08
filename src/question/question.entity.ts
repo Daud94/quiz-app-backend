@@ -1,4 +1,4 @@
-import { BeforeFind, Column, Model, Table } from "sequelize-typescript";
+import { AfterFind, Column, Model, Table } from "sequelize-typescript";
 import { DataTypes } from "sequelize";
 import { encrypt } from "../helper/encryption";
 
@@ -19,6 +19,11 @@ export class Question extends Model {
   type: string;
 
   @Column({
+    type: DataTypes.ENUM('EASY','MEDIUM','HARD')
+  })
+  difficulty: string;
+
+  @Column({
     type: DataTypes.ARRAY(DataTypes.STRING)
   })
   options: string[];
@@ -33,7 +38,7 @@ export class Question extends Model {
   })
   mark: number;
 
-  @BeforeFind
+  @AfterFind
   static async applyHook(instance: Question, options: Options) {
     if (options.applyHook) {
       instance.correctOption = await encrypt(instance.correctOption)

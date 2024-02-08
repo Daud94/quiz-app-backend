@@ -17,6 +17,10 @@ module.exports = {
         type: Sequelize.ENUM('TRUE_OR_FALSE','MULTIPLE_CHOICE'),
         allowNull: false
       },
+      difficulty:{
+        type: Sequelize.ENUM('EASY','MEDIUM','HARD'),
+        allowNull: false
+      },
       options: {
         type: Sequelize.ARRAY(Sequelize.STRING),
         allowNull: false
