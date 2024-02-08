@@ -8,6 +8,12 @@ interface Options {
 
 @Table
 export class Question extends Model {
+
+  @Column({
+    type: DataTypes.STRING
+  })
+  subject: string;
+
   @Column({
     type: DataTypes.TEXT
   })

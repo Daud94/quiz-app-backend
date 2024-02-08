@@ -49,10 +49,11 @@ export class QuestionsService{
     }
   }
 
-  async getAllQuestions(difficulty,type, page, limit){
+  async getAllQuestions(subject, difficulty,type, page, limit){
     const offset = (page - 1) * 100
-    return await Question.findAll({
+    return await Question.findAndCountAll({
       where: {
+        ...(subject && {subject: subject}),
         ...(difficulty && {difficulty: difficulty}),
         ...(type && {type: type}),
       },
