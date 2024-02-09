@@ -9,6 +9,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.BIGINT
       },
+      subject: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       question: {
         type: Sequelize.TEXT,
         allowNull: false

@@ -7,7 +7,8 @@ import { verifyHash } from "../utils/util";
 import { CreateAdminDto } from "../admin/dto/createAdmin.dto";
 import { AdminService } from "../admin/admin.service";
 import { RoleService } from "../iam/role/role.service";
-require('dotenv').config()
+
+require("dotenv").config();
 
 @Injectable()
 export class AuthService {
@@ -28,21 +29,22 @@ export class AuthService {
     return { success: true, message: "Signup successful" };
   }
 
-  async userLogin (reqBody: UserLoginDto) {
+  async userLogin(reqBody: UserLoginDto) {
     const user = await this.usersService.findOneByEmail(reqBody.email);
-    if (!user){
-      throw new BadRequestException('Invalid user credential')
+    if (!user) {
+      throw new BadRequestException("Invalid user credential");
     }
 
-    const isValidPassword = await verifyHash(reqBody.password, user.password)
-    if(!isValidPassword){
-      throw new UnauthorizedException()
+    const isValidPassword = await verifyHash(reqBody.password, user.password);
+    if (!isValidPassword) {
+      throw new UnauthorizedException();
     }
 
-    const payload = {userId: user.userId}
-    const token = await this.jwtService.signAsync(payload,{secret: process.env['JWT_SECRET']})
+    const payload = { userId: user.userId };
+    const token = await this.jwtService.signAsync(payload,
+      { secret: process.env["JWT_SECRET"], expiresIn: "1d" });
 
-    return {success: true, message: 'You are signed in!', accessToken : token}
+    return { success: true, message: "You are signed in!", accessToken: token };
   }
 
   async adminSignup(reqBody: CreateAdminDto) {
@@ -54,23 +56,23 @@ export class AuthService {
     return { success: true, message: "Signup successful" };
   }
 
-  async adminLogin (reqBody: UserLoginDto) {
+  async adminLogin(reqBody: UserLoginDto) {
     const admin = await this.adminService.findOneByEmail(reqBody.email);
-    if (!admin){
-      throw new BadRequestException('Invalid user credential')
+    if (!admin) {
+      throw new BadRequestException("Invalid user credential");
     }
 
-    const isValidPassword = await verifyHash(reqBody.password, admin.password)
-    if(!isValidPassword){
-      throw new UnauthorizedException()
+    const isValidPassword = await verifyHash(reqBody.password, admin.password);
+    if (!isValidPassword) {
+      throw new UnauthorizedException();
     }
 
-    const role = await this.roleService.findRoleByName(admin.role)
-    if (!role){
-      throw new BadRequestException('Invalid role')
+    const role = await this.roleService.findRoleByName(admin.role);
+    if (!role) {
+      throw new BadRequestException("Invalid role");
     }
-    const payload = {adminId: admin.adminId, permissions: role.permissions}
-    const token = await this.jwtService.signAsync(payload,{secret: process.env['JWT_SECRET']})
-    return {success: true, message: 'You are signed in!', accessToken : token}
+    const payload = { adminId: admin.adminId, permissions: role.permissions };
+    const token = await this.jwtService.signAsync(payload, { secret: process.env["JWT_SECRET"] });
+    return { success: true, message: "You are signed in!", accessToken: token };
   }
 }

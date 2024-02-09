@@ -1,5 +1,5 @@
 import { QUESTIONS_REPOSITORY } from "../constants";
-import { BadRequestException, Inject, Injectable } from "@nestjs/common";
+import { BadRequestException, ConflictException, Inject, Injectable } from "@nestjs/common";
 import { Question } from "./question.entity";
 
 
@@ -12,6 +12,10 @@ export class QuestionsService{
 
   async createQuestion(data) {
     try {
+      const question = await this.getQuestionByName(data.question)
+      if (question){
+        throw new ConflictException('Question already exists')
+      }
       return await Question.create({ ...data });
     } catch (e) {
       throw new BadRequestException(e.message)
@@ -27,6 +31,17 @@ export class QuestionsService{
       });
     } catch (e) {
       throw new BadRequestException(e.message)
+    }
+  }
+
+  async getQuestionByName(question){
+    try {
+      return await Question.findOne({
+        where: {
+          question: question
+        }
+      });
+    } catch (e) {
     }
   }
 
@@ -59,6 +74,6 @@ export class QuestionsService{
       },
       offset: offset,
       limit: limit
-    })
+    },)
   }
 }
