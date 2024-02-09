@@ -39,7 +39,7 @@ export class AdminController {
   @UseGuards(RolesGuard)
   @Roles(Permission.UPDATE_QUESTION)
   @UseGuards(AdminAuthGuard)
-  @Post("update-question")
+  @Post("update-question/:id")
   async updateQuestion(
     @Param("id", ParseIntPipe) id: number,
     body: Partial<Question>) {
@@ -50,17 +50,17 @@ export class AdminController {
   @UseGuards(RolesGuard)
   @Roles(Permission.GET_QUESTIONS)
   @UseGuards(AdminAuthGuard)
-  @Get('get-question')
+  @Get('get-question/:id')
   async getQuestion(
     @Param("id", ParseIntPipe) id: number) {
-    await this.questionsService.getQuestion(id);
-    return { success: true, message: "Question fetched successfully" };
+    const question = await this.questionsService.getQuestion(id);
+    return { success: true, message: "Question fetched successfully", data: question};
   }
 
   @UseGuards(RolesGuard)
   @Roles(Permission.DELETE_QUESTION)
   @UseGuards(AdminAuthGuard)
-  @Get('delete-question')
+  @Get('delete-question/:id')
   async deleteQuestion(
     @Param("id", ParseIntPipe) id: number) {
     await this.questionsService.deleteQuestion(id);
@@ -73,13 +73,13 @@ export class AdminController {
   @Get('get-all-questions')
   async getAllQuestions(
     @Query('subject') subject: string,
-    @Query('difficulty', new ParseEnumPipe(QuestionDifficultyEnum)) difficulty: QuestionDifficultyEnum,
-    @Query('type', new ParseEnumPipe(QuestionsTypeEnum)) type: QuestionsTypeEnum,
+    @Query('difficulty', new ParseEnumPipe(QuestionDifficultyEnum, {optional: true})) difficulty: string,
+    @Query('type', new ParseEnumPipe(QuestionsTypeEnum, {optional: true})) type: string,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
     @Query('limit', new DefaultValuePipe(50), ParseIntPipe) limit: number,
   ) {
-    await this.questionsService.getAllQuestions(subject, difficulty, type, page,limit);
-    return { success: true, message: "Questions fetched successfully" };
+    const questions = await this.questionsService.getAllQuestions(subject, difficulty, type, page,limit);
+    return { success: true, message: "Questions fetched successfully" , data: questions.rows, count: questions.count};
   }
 
 }
