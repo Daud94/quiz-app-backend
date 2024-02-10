@@ -1,6 +1,5 @@
-import { AfterFind, Column, Model, Table } from "sequelize-typescript";
+import {Column, Model, Table } from "sequelize-typescript";
 import { DataTypes } from "sequelize";
-import { encrypt } from "../helper/encryption";
 
 interface Options {
   applyHook: boolean;
@@ -43,12 +42,5 @@ export class Question extends Model {
     type: DataTypes.INTEGER
   })
   mark: number;
-
-  @AfterFind
-  static async applyHook(instance: Question, options: Options) {
-    if (options.applyHook) {
-      instance.correctOption = await encrypt(instance.correctOption)
-    }
-  }
 
 }

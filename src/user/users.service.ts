@@ -20,4 +20,13 @@ export class UsersService {
       }
     })
   }
+
+  async getUserById(id: string){
+    return User.findOne({
+      where: {
+        userId: id
+      },
+      attributes: ['id','firstName','lastName','email'],
+    })
+  }
 }
