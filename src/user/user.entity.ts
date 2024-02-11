@@ -1,15 +1,17 @@
-import { BeforeCreate, Column, Model, Table } from "sequelize-typescript";
+import { BeforeCreate, Column, HasMany, Model, Table } from "sequelize-typescript";
 import { DataTypes } from "sequelize";
 import * as bcrypt from "bcrypt";
 import { Exclude } from "class-transformer";
 import { hash } from "../utils/util";
+import { Attempt } from "../attempt/attempt.entity";
 
 
 @Table
 export class User extends Model {
+
   @Column({
     type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
+    defaultValue: DataTypes.UUIDV4
   })
   userId: string;
 
@@ -30,12 +32,19 @@ export class User extends Model {
 
   @Exclude()
   @Column({
-    type: DataTypes.STRING,
+    type: DataTypes.STRING
   })
   password: string;
 
   @BeforeCreate
   static async hashPassword(instance: User) {
-    instance.password = await hash(instance.password)
+    instance.password = await hash(instance.password);
   }
+
+  @HasMany(() => Attempt,{
+    foreignKey: 'userId',
+    sourceKey: 'userId',
+  })
+  attempts: Attempt[];
+
 }

@@ -2,7 +2,7 @@ import {
   Body,
   Controller,
   DefaultValuePipe,
-  Get, ParseArrayPipe,
+  Get, Param, ParseArrayPipe,
   ParseEnumPipe,
   ParseIntPipe,
   Post,
@@ -79,20 +79,20 @@ export class UserController {
     @Body(new ParseArrayPipe({ items: AttemptedQuestionsDto }))
       body: AttemptedQuestionsDto[]
   ) {
+    console.log(req.user);
     const decryptedQuestions = await Promise.all(body.map(item => {
       return {
-        ...item,
+        ...(item),
         correctOption: decryptData(item.correctOption)
       };
     }));
-
     const score = decryptedQuestions.filter(item => item.correctOption === item.selectedOption)
       .reduce((accumulator, currentValue) => {
         return accumulator + currentValue.mark;
       }, 0);
 
     await this.attemptService.createAttempt({
-      attemptedQuestions: (decryptedQuestions),
+      attemptedQuestions: decryptedQuestions,
       score: score,
       userId: req.user.userId
     });
@@ -105,5 +105,22 @@ export class UserController {
         attemptedQuestions: decryptedQuestions
       }
     };
+  }
+
+  @UseGuards(UserAuthGuard)
+  @Get('get-attempt/:attemptId')
+  async getUserAttempt(@Param('attemptId', ParseIntPipe) attemptId: number){
+    const attempt = await this.attemptService.getUserAttemptById(attemptId)
+    return {success: true, message: 'Attempt fetched!', data: attempt}
+  }
+  @UseGuards(UserAuthGuard)
+  @Get('get-all-user-attempts')
+  async getAllUserAttempts(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+    @Request() req
+  ){
+    const res = await this.attemptService.getUserAttempts(req.user.userId, page, limit)
+    return {success: true, message: "Attempts fetched", data: res.rows, count: res.count}
   }
 }

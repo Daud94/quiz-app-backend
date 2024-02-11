@@ -9,8 +9,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.BIGINT,
       },
+      userId: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       attemptedQuestions: {
-        type: Sequelize.ARRAY(Sequelize.JSON),
+        type: Sequelize.ARRAY(Sequelize.JSONB),
         allowNull: false
     },
       score: {
