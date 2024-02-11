@@ -1,17 +1,81 @@
-import { Controller, Get, Request, UseGuards } from "@nestjs/common";
+import {
+  BadRequestException,
+  Controller,
+  DefaultValuePipe,
+  Get,
+  ParseEnumPipe,
+  ParseIntPipe,
+  Post,
+  Query,
+  Request,
+  UseGuards
+} from "@nestjs/common";
 import { UserAuthGuard } from "../auth/userAuth.guard";
 import { UsersService } from "./users.service";
+import { QuestionDifficultyEnum, QuestionsTypeEnum } from "../question/questionsTypeEnum";
+import { QuestionsService } from "../question/questions.service";
+import { encrypt } from "../helper/encryption";
+import { result, shuffle } from "lodash";
 
-@Controller('user')
+
+@Controller("user")
 export class UserController {
   constructor(
-    private userService: UsersService
+    private userService: UsersService,
+    private questionService: QuestionsService
   ) {
   }
+
   @UseGuards(UserAuthGuard)
-  @Get('profile')
-  async getProfile(@Request() req){
-    const user = await this.userService.getUserById(req.user.userId)
-    return {success: true, message: 'User details fetched', data: user}
+  @Get("profile")
+  async getProfile(@Request() req) {
+    const user = await this.userService.getUserById(req.user.userId);
+    return { success: true, message: "User details fetched", data: user };
   }
+
+  @UseGuards(UserAuthGuard)
+  @Get("take-quiz")
+  async takeQuiz(
+    @Query("subject") subject: string,
+    @Query("numberOfQuestions", new DefaultValuePipe(20),ParseIntPipe) numberOfQuestions: number,
+    @Query("difficulty", new ParseEnumPipe(QuestionDifficultyEnum, { optional: true })) difficulty: string,
+    @Query("type", new ParseEnumPipe(QuestionsTypeEnum, { optional: true })) type: string,
+    @Query("page", new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query("limit", new DefaultValuePipe(100), ParseIntPipe) limit: number
+  ) {
+    const questions = await this.questionService.getAllQuestions(
+      subject, difficulty, type, page, limit
+    );
+    if (numberOfQuestions <= questions.count){
+      const slicedQuestions = questions.rows.slice(0, numberOfQuestions - 1)
+      const encryptedOptions = await Promise.all(slicedQuestions.map(async (question) => {
+        return {
+          ...question.dataValues,
+          correctOption: await encrypt(question.correctOption)
+        };
+      }));
+      return { success: true, message: "Quiz questions fetched", data: shuffle(encryptedOptions)};
+    }
+
+    if (numberOfQuestions >= questions.count){
+      const encryptedOptions = await Promise.all(questions.rows.map(async (question) => {
+        return {
+          ...question.dataValues,
+          correctOption: await encrypt(question.correctOption)
+        };
+      }));
+      return { success: true, message: "Quiz questions fetched", data: shuffle(encryptedOptions)};
+
+    }
+  }
+
+  @UseGuards(UserAuthGuard)
+  @Post('submit-quiz')
+  async submitQuiz(
+    @Request() req,
+    @Body() body:
+  ){
+
+  }
+
 }

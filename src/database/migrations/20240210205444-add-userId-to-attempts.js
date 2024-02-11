@@ -3,7 +3,7 @@ module.exports = {
   up: function (queryInterface, Sequelize) {
     return Promise.all([
       queryInterface.addColumn('Attempts', 'userId', {
-        type: Sequelize.BIGINT,
+        type: Sequelize.STRING,
       }),
     ]);
   },
