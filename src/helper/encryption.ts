@@ -1,31 +1,21 @@
-import { createCipheriv, randomBytes, scrypt } from "crypto";
-import { promisify } from "util";
-import { createDecipheriv } from "crypto";
+import * as process from "process";
+import { createCipheriv, randomBytes, createDecipheriv } from 'node:crypto';
 
-export const encrypt = async (data) => {
-  const iv = randomBytes(16);
-  const password = process.env["ENCRYPTION_KEY"];
 
-// The key length is dependent on the algorithm.
-// In this case for aes256, it is 32 bytes.
-  const key = (await promisify(scrypt)(password, "salt", 32)) as Buffer;
-  const cipher = createCipheriv("aes-256-ctr", key, iv);
-
-  const encryptedText = Buffer.concat([
-    cipher.update(data),
-    cipher.final()
-  ]);
-  return encryptedText.toString('base64');
+require("dotenv").config();
+export const encryptData = (data) => {
+  const iv = randomBytes(16); // Generate a random IV (Initialization Vector)
+  const cipher = createCipheriv("aes-256-cbc", Buffer.from(process.env["ENCRYPTION_KEY"]), iv);
+  let encrypted = cipher.update(data, "utf8", "hex");
+  encrypted += cipher.final("hex");
+  return iv.toString("hex") + encrypted; // Prepend the IV to the encrypted data
 };
 
-export const decrypt = async (data) => {
-  const iv = randomBytes(16);
-  const password = process.env["ENCRYPTION_KEY"];
-  const key = (await promisify(scrypt)(password, "salt", 32)) as Buffer;
-  const decipher = createDecipheriv("aes-256-ctr", key, iv);
-  const decryptedText = Buffer.concat([
-    decipher.update(Buffer.from(data, 'base64')),
-    decipher.final()
-  ]);
-  return decryptedText.toString()
-};
+export const decryptData = (encryptedData) => {
+  const iv = Buffer.from(encryptedData.slice(0, 32), "hex"); // Extract IV from the encrypted data
+  const encryptedText = encryptedData.slice(32); // Get the actual encrypted text
+  const decipher = createDecipheriv("aes-256-cbc", Buffer.from(process.env["ENCRYPTION_KEY"]), iv);
+  let decrypted = decipher.update(encryptedText, "hex", "utf8");
+  decrypted += decipher.final("utf8");
+  return decrypted;
+}
