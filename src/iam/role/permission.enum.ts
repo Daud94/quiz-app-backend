@@ -7,5 +7,5 @@ export enum Permission {
   UPDATE_USER = "UPDATE_USER",
   GET_USERS = "GET_USERS",
   DELETE_USERS = "DELETE_USERS",
-  ADD_ADMIN = "ADD_ADMIN"
+  ADD_ADMIN = "ADD_ADMIN",
 }

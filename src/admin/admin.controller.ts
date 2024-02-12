@@ -8,7 +8,8 @@ import {
   ParseIntPipe,
   Post,
   Query,
-  UseGuards
+  UseGuards,
+  Request
 } from "@nestjs/common";
 
 import { AdminAuthGuard } from "../auth/adminAuth.guard";
@@ -19,11 +20,16 @@ import { CreateQuestionDto } from "../question/dto/createQuestionDto";
 import { QuestionsService } from "../question/questions.service";
 import { Question } from "../question/question.entity";
 import { QuestionDifficultyEnum, QuestionsTypeEnum } from "../question/questionsTypeEnum";
+import { AdminService } from "./admin.service";
+import { CreateRoleDto } from "../iam/role/dto/createRole.dto";
+import { RoleService } from "../iam/role/role.service";
 
 @Controller("admin")
 export class AdminController {
   constructor(
-    private readonly questionsService: QuestionsService
+    private readonly questionsService: QuestionsService,
+    private readonly adminService: AdminService,
+    private readonly roleService: RoleService
   ) {
   }
 
@@ -50,17 +56,17 @@ export class AdminController {
   @UseGuards(RolesGuard)
   @Roles(Permission.GET_QUESTIONS)
   @UseGuards(AdminAuthGuard)
-  @Get('get-question/:id')
+  @Get("get-question/:id")
   async getQuestion(
     @Param("id", ParseIntPipe) id: number) {
     const question = await this.questionsService.getQuestion(id);
-    return { success: true, message: "Question fetched successfully", data: question};
+    return { success: true, message: "Question fetched successfully", data: question };
   }
 
   @UseGuards(RolesGuard)
   @Roles(Permission.DELETE_QUESTION)
   @UseGuards(AdminAuthGuard)
-  @Get('delete-question/:id')
+  @Get("delete-question/:id")
   async deleteQuestion(
     @Param("id", ParseIntPipe) id: number) {
     await this.questionsService.deleteQuestion(id);
@@ -70,16 +76,41 @@ export class AdminController {
   @UseGuards(RolesGuard)
   @Roles(Permission.DELETE_QUESTION)
   @UseGuards(AdminAuthGuard)
-  @Get('get-all-questions')
+  @Get("get-all-questions")
   async getAllQuestions(
-    @Query('subject') subject: string,
-    @Query('difficulty', new ParseEnumPipe(QuestionDifficultyEnum, {optional: true})) difficulty: string,
-    @Query('type', new ParseEnumPipe(QuestionsTypeEnum, {optional: true})) type: string,
-    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-    @Query('limit', new DefaultValuePipe(50), ParseIntPipe) limit: number,
+    @Query("subject") subject: string,
+    @Query("difficulty", new ParseEnumPipe(QuestionDifficultyEnum, { optional: true })) difficulty: string,
+    @Query("type", new ParseEnumPipe(QuestionsTypeEnum, { optional: true })) type: string,
+    @Query("page", new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query("limit", new DefaultValuePipe(50), ParseIntPipe) limit: number
   ) {
-    const questions = await this.questionsService.getAllQuestions(subject, difficulty, type, page,limit);
-    return { success: true, message: "Questions fetched successfully" , data: questions.rows, count: questions.count};
+    const questions = await this.questionsService.getAllQuestions(subject, difficulty, type, page, limit);
+    return { success: true, message: "Questions fetched successfully", data: questions.rows, count: questions.count };
+  }
+
+  @UseGuards(RolesGuard)
+  @Roles(Permission.ADD_ADMIN)
+  @UseGuards(AdminAuthGuard)
+  @Get("get-permissions")
+  async getPermissions() {
+    const permission = await this.adminService.getPermssions();
+    return { success: true, message: "Permissions fetched", data: permission };
+  }
+
+  @UseGuards(RolesGuard)
+  @Roles(Permission.ADD_ADMIN)
+  @UseGuards(AdminAuthGuard)
+  @Get("get-permissions")
+  async addRole(
+    @Body() body: CreateRoleDto,
+    @Request() req
+  ) {
+    const admin = await this.adminService.findOneById(req.admin.adminId);
+    await this.roleService.createRole({
+      ...body, createdBy: `${admin.firstName} ${admin.lastName}`
+    });
+
+    return {success: true, message: 'Role added successfully'}
   }
 
 }

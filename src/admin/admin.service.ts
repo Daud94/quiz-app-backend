@@ -2,6 +2,7 @@ import { ADMIN_REPOSITORY } from "../constants";
 import { Admin } from "./admin.entity";
 import { Inject, Injectable } from "@nestjs/common";
 import { CreateAdminDto } from "./dto/createAdmin.dto";
+import { Permission } from "../iam/role/permission.enum";
 
 
 @Injectable()
@@ -20,5 +21,17 @@ export class AdminService {
         email: email
       }
     })
+  }
+
+  async findOneById(adminId: string){
+    return await Admin.findOne({
+      where: {
+        adminId: adminId
+      }
+    })
+  }
+
+  async getPermssions(){
+    return Permission
   }
 }
