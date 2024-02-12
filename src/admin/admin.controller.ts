@@ -100,7 +100,7 @@ export class AdminController {
   @UseGuards(RolesGuard)
   @Roles(Permission.ADD_ADMIN)
   @UseGuards(AdminAuthGuard)
-  @Get("get-permissions")
+  @Post("add-role")
   async addRole(
     @Body() body: CreateRoleDto,
     @Request() req
@@ -111,6 +111,16 @@ export class AdminController {
     });
 
     return {success: true, message: 'Role added successfully'}
+  }
+
+  @UseGuards(RolesGuard)
+  @Roles(Permission.ADD_ADMIN)
+  @UseGuards(AdminAuthGuard)
+  @Get("get-all-roles")
+  async getAllRoles(
+  ) {
+    const roles = await this.roleService.getAllRoles()
+    return {success: true, message: 'Roles fetched', data: roles}
   }
 
 }

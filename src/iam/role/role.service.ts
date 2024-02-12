@@ -21,4 +21,10 @@ export class RoleService {
       }
     });
   }
+
+  async getAllRoles(){
+    return await Role.findAll({
+      attributes: ['id','name','permissions'],
+    })
+  }
 }
