@@ -1,8 +1,7 @@
 import * as process from "process";
 import { createCipheriv, randomBytes, createDecipheriv } from 'node:crypto';
-
-
 require("dotenv").config();
+
 export const encryptData = (data) => {
   const iv = randomBytes(16); // Generate a random IV (Initialization Vector)
   const cipher = createCipheriv("aes-256-cbc", Buffer.from(process.env["ENCRYPTION_KEY"]), iv);

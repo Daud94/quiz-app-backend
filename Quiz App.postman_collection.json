@@ -1,0 +1,1377 @@
+{
+	"info": {
+		"_postman_id": "2d36aeec-b097-4601-b4fc-4bc1b36af303",
+		"name": "Quiz App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24063617"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Admin",
+					"item": [
+						{
+							"name": "Admin signup",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{school}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\":\"Daud\",\r\n    \"lastName\": \"Olarewaju\",\r\n    \"email\": \"olarewajuyahyadaud@gmail.com\",\r\n    \"role\": \"Super Admin\",\r\n    \"password\": \"Daud@#123\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localhost}}/auth/admin/signup",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"auth",
+										"admin",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Admin login",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var res = pm.response.json();\r",
+											"pm.collectionVariables.set('admin', res['accessToken']);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"SuperAdminEmail@gmail.com\",\r\n  \"password\": \"SuperAdmin\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localhost}}/auth/admin/login",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"auth",
+										"admin",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "User signup",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\":\"Daud\",\r\n    \"lastName\": \"Olarewaju\",\r\n    \"email\":\"olarewajuyahyadaud@gmail.com\",\r\n    \"password\": \"Password@#123\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localhost}}/auth/user/signup",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"auth",
+										"user",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "User login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var res = pm.response.json();\r",
+											"pm.collectionVariables.set('user', res['accessToken']);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"olarewajuyahyadaud@gmail.com\",\r\n    \"password\": \"Password@#123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localhost}}/auth/user/login",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"auth",
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get user profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/user/profile",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get user profile",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localhost}}/user/profile",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"user",
+										"profile"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "146"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"92-spsbGIbvYsp1tfDfXQgxJQyiUdo\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 10 Feb 2024 21:24:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"User details fetched\",\n    \"data\": {\n        \"id\": 1,\n        \"firstName\": \"Daud\",\n        \"lastName\": \"Olarewaju\",\n        \"email\": \"olarewajuyahyadaud@gmail.com\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Take quiz",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/user/take-quiz?numberOfQuestions=2&limit=2&page=1",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"user",
+								"take-quiz"
+							],
+							"query": [
+								{
+									"key": "subject",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "numberOfQuestions",
+									"value": "2"
+								},
+								{
+									"key": "difficulty",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "type",
+									"value": "MULTIPLE_CHOICE",
+									"description": "MULTIPLE_CHOIC or TRUE_OR_FALSE",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Take quiz",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localhost}}/user/take-quiz?page=1",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"user",
+										"take-quiz"
+									],
+									"query": [
+										{
+											"key": "subject",
+											"value": "",
+											"description": "Subject user would like to be tested on based on. This is optional.",
+											"disabled": true
+										},
+										{
+											"key": "numberOfQuestions",
+											"value": "50",
+											"description": "Preferred number of questions user would like to answer. Default is 20.",
+											"disabled": true
+										},
+										{
+											"key": "difficulty",
+											"value": "",
+											"description": "EASY, MEDIUM or HARD. It is also optional",
+											"disabled": true
+										},
+										{
+											"key": "type",
+											"value": "MULTIPLE_CHOICE",
+											"description": "Optional but when provided it should be MULTIPLE_CHOICE or TRUE_OR_FALSE",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1078"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"436-62vEVqP0CTdA+maUmqtVezu3LmY\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Feb 2024 14:20:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Quiz questions fetched\",\n    \"data\": [\n        {\n            \"id\": \"6\",\n            \"subject\": \"Current Affairs\",\n            \"question\": \"What is the federal capital of Nigeria?\",\n            \"type\": \"MULTIPLE_CHOICE\",\n            \"difficulty\": \"EASY\",\n            \"options\": [\n                \"Abuja\",\n                \"Ilorin\",\n                \"Ikeja\",\n                \"Osogbo\"\n            ],\n            \"correctOption\": \"ed0041b9ee5f2c893e3b2c8e51abe2332c01fbd267347b2fc04306900d21d7f1\",\n            \"mark\": 10,\n            \"createdAt\": \"2024-02-08T19:35:15.198Z\",\n            \"updatedAt\": \"2024-02-08T19:35:15.198Z\"\n        },\n        {\n            \"id\": \"7\",\n            \"subject\": \"English\",\n            \"question\": \"Verb is a part of speech\",\n            \"type\": \"TRUE_OR_FALSE\",\n            \"difficulty\": \"EASY\",\n            \"options\": [\n                \"true\",\n                \"false\"\n            ],\n            \"correctOption\": \"ee68cfb1d8bf3f5277682fa0cf56e19ff3b74ceb0573b47e477d4154ae209e09\",\n            \"mark\": 10,\n            \"createdAt\": \"2024-02-11T05:42:20.501Z\",\n            \"updatedAt\": \"2024-02-11T05:42:20.501Z\"\n        },\n        {\n            \"id\": \"5\",\n            \"subject\": \"Current Affairs\",\n            \"question\": \"What is the federal capital of Nigeria?\",\n            \"type\": \"MULTIPLE_CHOICE\",\n            \"difficulty\": \"EASY\",\n            \"options\": [\n                \"Abuja\",\n                \"Ilorin\",\n                \"Ikeja\",\n                \"Osogbo\"\n            ],\n            \"correctOption\": \"7197f3c458da016e16e1e9f1875c0cfb33214325d69c1978f777b90e0c30b8ac\",\n            \"mark\": 10,\n            \"createdAt\": \"2024-02-08T09:54:32.006Z\",\n            \"updatedAt\": \"2024-02-08T09:54:32.006Z\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Submit quiz",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"subject\": \"Current Affairs\",\r\n        \"question\": \"What is the federal capital of Nigeria?\",\r\n        \"type\": \"MULTIPLE_CHOICE\",\r\n        \"difficulty\": \"EASY\",\r\n        \"selectedOption\": \"Abuja\",\r\n        \"correctOption\": \"ed0041b9ee5f2c893e3b2c8e51abe2332c01fbd267347b2fc04306900d21d7f1\",\r\n        \"mark\": 10\r\n    },\r\n    {\r\n        \"subject\": \"Current Affairs\",\r\n        \"question\": \"What is the federal capital of Nigeria?\",\r\n        \"type\": \"MULTIPLE_CHOICE\",\r\n        \"difficulty\": \"EASY\",\r\n        \"selectedOption\": \"Abuja\",\r\n        \"correctOption\": \"7197f3c458da016e16e1e9f1875c0cfb33214325d69c1978f777b90e0c30b8ac\",\r\n        \"mark\": 10\r\n    },\r\n    {\r\n        \"subject\": \"English\",\r\n        \"question\": \"Verb is a part of speech\",\r\n        \"type\": \"TRUE_OR_FALSE\",\r\n        \"difficulty\": \"EASY\",\r\n        \"selectedOption\": \"true\",\r\n        \"correctOption\": \"ed0041b9ee5f2c893e3b2c8e51abe2332c01fbd267347b2fc04306900d21d7f1\",\r\n        \"mark\": 10\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/user/submit-quiz",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"user",
+								"submit-quiz"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Submit quiz",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"subject\": \"Current Affairs\",\r\n        \"question\": \"What is the federal capital of Nigeria?\",\r\n        \"type\": \"MULTIPLE_CHOICE\",\r\n        \"difficulty\": \"EASY\",\r\n        \"selectedOption\": \"Abuja\",\r\n        \"correctOption\": \"ed0041b9ee5f2c893e3b2c8e51abe2332c01fbd267347b2fc04306900d21d7f1\",\r\n        \"mark\": 10\r\n    },\r\n    {\r\n        \"subject\": \"Current Affairs\",\r\n        \"question\": \"What is the federal capital of Nigeria?\",\r\n        \"type\": \"MULTIPLE_CHOICE\",\r\n        \"difficulty\": \"EASY\",\r\n        \"selectedOption\": \"Abuja\",\r\n        \"correctOption\": \"7197f3c458da016e16e1e9f1875c0cfb33214325d69c1978f777b90e0c30b8ac\",\r\n        \"mark\": 10\r\n    },\r\n    {\r\n        \"subject\": \"English\",\r\n        \"question\": \"Verb is a part of speech\",\r\n        \"type\": \"TRUE_OR_FALSE\",\r\n        \"difficulty\": \"EASY\",\r\n        \"selectedOption\": \"true\",\r\n        \"correctOption\": \"ed0041b9ee5f2c893e3b2c8e51abe2332c01fbd267347b2fc04306900d21d7f1\",\r\n        \"mark\": 10\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localhost}}/user/submit-quiz",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"user",
+										"submit-quiz"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "630"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"276-3vcPMRL0srhYWUvQAHlK6kemrwI\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Feb 2024 14:23:00 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Quiz attempt submitted!\",\n    \"data\": {\n        \"score\": 20,\n        \"attemptedQuestions\": [\n            {\n                \"subject\": \"Current Affairs\",\n                \"question\": \"What is the federal capital of Nigeria?\",\n                \"type\": \"MULTIPLE_CHOICE\",\n                \"difficulty\": \"EASY\",\n                \"selectedOption\": \"Abuja\",\n                \"correctOption\": \"Abuja\",\n                \"mark\": 10\n            },\n            {\n                \"subject\": \"Current Affairs\",\n                \"question\": \"What is the federal capital of Nigeria?\",\n                \"type\": \"MULTIPLE_CHOICE\",\n                \"difficulty\": \"EASY\",\n                \"selectedOption\": \"Abuja\",\n                \"correctOption\": \"Abuja\",\n                \"mark\": 10\n            },\n            {\n                \"subject\": \"English\",\n                \"question\": \"Verb is a part of speech\",\n                \"type\": \"TRUE_OR_FALSE\",\n                \"difficulty\": \"EASY\",\n                \"selectedOption\": \"true\",\n                \"correctOption\": \"Abuja\",\n                \"mark\": 10\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get attempt by attempt id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/user/get-attempt/:attemptId",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"user",
+								"get-attempt",
+								":attemptId"
+							],
+							"variable": [
+								{
+									"key": "attemptId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get attempt by attempt id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localhost}}/user/get-attempt/:attemptId",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"user",
+										"get-attempt",
+										":attemptId"
+									],
+									"variable": [
+										{
+											"key": "attemptId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "637"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"27d-fo5fHU+QX0CjvtBj2uwyoXRWl9w\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Feb 2024 20:55:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Attempt fetched!\",\n    \"data\": {\n        \"id\": \"1\",\n        \"score\": \"20.00\",\n        \"attemptedQuestions\": [\n            {\n                \"mark\": 10,\n                \"type\": \"MULTIPLE_CHOICE\",\n                \"subject\": \"Current Affairs\",\n                \"question\": \"What is the federal capital of Nigeria?\",\n                \"difficulty\": \"EASY\",\n                \"correctOption\": \"Abuja\",\n                \"selectedOption\": \"Abuja\"\n            },\n            {\n                \"mark\": 10,\n                \"type\": \"MULTIPLE_CHOICE\",\n                \"subject\": \"Current Affairs\",\n                \"question\": \"What is the federal capital of Nigeria?\",\n                \"difficulty\": \"EASY\",\n                \"correctOption\": \"Abuja\",\n                \"selectedOption\": \"Abuja\"\n            },\n            {\n                \"mark\": 10,\n                \"type\": \"TRUE_OR_FALSE\",\n                \"subject\": \"English\",\n                \"question\": \"Verb is a part of speech\",\n                \"difficulty\": \"EASY\",\n                \"correctOption\": \"Abuja\",\n                \"selectedOption\": \"true\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all user attempts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/user/get-all-user-attempts",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"user",
+								"get-all-user-attempts"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Role & Permission",
+					"item": [
+						{
+							"name": "Get permissions",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localhost}}/admin/get-permissions",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"admin",
+										"get-permissions"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Get permissions",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{localhost}}/admin/get-permissions",
+											"host": [
+												"{{localhost}}"
+											],
+											"path": [
+												"admin",
+												"get-permissions"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "331"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"14b-4DZuxwwFxm5YiRKXCOXU9sgDI4c\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 12 Feb 2024 13:28:45 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Permissions fetched\",\n    \"data\": {\n        \"CREATE_QUESTION\": \"CREATE_QUESTION\",\n        \"UPDATE_QUESTION\": \"UPDATE_QUESTION\",\n        \"GET_QUESTIONS\": \"GET_QUESTIONS\",\n        \"DELETE_QUESTION\": \"DELETE_QUESTION\",\n        \"CREATE_USER\": \"CREATE_USER\",\n        \"UPDATE_USER\": \"UPDATE_USER\",\n        \"GET_USERS\": \"GET_USERS\",\n        \"DELETE_USERS\": \"DELETE_USERS\",\n        \"ADD_ADMIN\": \"ADD_ADMIN\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Add role",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Admin\",\r\n    \"permissions\": [\r\n        \"CREATE_QUESTION\",\r\n        \"UPDATE_QUESTION\",\r\n        \"GET_QUESTIONS\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localhost}}/admin/add-role",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"admin",
+										"add-role"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Add role",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Admin\",\r\n    \"permissions\": [\r\n        \"CREATE_QUESTION\",\r\n        \"UPDATE_QUESTION\",\r\n        \"GET_QUESTIONS\"\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{localhost}}/admin/add-role",
+											"host": [
+												"{{localhost}}"
+											],
+											"path": [
+												"admin",
+												"add-role"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "52"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"34-fKQ+Ab4+PBSLRy3ocI5EjNqVWt0\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 12 Feb 2024 13:52:34 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Role added successfully\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Get all roles",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localhost}}/admin/get-all-roles",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"admin",
+										"get-all-roles"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Get all roles",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{localhost}}/admin/get-all-roles",
+											"host": [
+												"{{localhost}}"
+											],
+											"path": [
+												"admin",
+												"get-all-roles"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "326"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"146-yGbHmwOk9wKXJ/TGk5P5eZLfwB8\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 12 Feb 2024 14:15:25 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Roles fetched\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Super Admin\",\n            \"permissions\": [\n                \"CREATE_QUESTION\",\n                \"UPDATE_QUESTION\",\n                \"GET_QUESTIONS\",\n                \"DELETE_QUESTION\",\n                \"CREATE_USER\",\n                \"UPDATE_USER\",\n                \"GET_USERS\",\n                \"DELETE_USERS\",\n                \"ADD_ADMIN\"\n            ]\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Admin\",\n            \"permissions\": [\n                \"CREATE_QUESTION\",\n                \"UPDATE_QUESTION\",\n                \"GET_QUESTIONS\"\n            ]\n        }\n    ]\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Add question",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // \"subject\": \"Current Affairs\",\r\n    // \"question\": \"What is the federal capital of Nigeria?\",\r\n    // \"options\": [\r\n    //     \"Abuja\",\r\n    //     \"Ilorin\",\r\n    //     \"Ikeja\",\r\n    //     \"Osogbo\"\r\n    // ],\r\n    // \"difficulty\": \"EASY\",\r\n    // \"correctOption\": \"Abuja\",\r\n    // \"type\": \"MULTIPLE_CHOICE\",\r\n    // \"mark\": 10\r\n\r\n    \"subject\": \"English\",\r\n    \"question\": \"Verb is a part of speech\",\r\n    \"options\": [\r\n        \"true\",\r\n        \"false\"\r\n    ],\r\n    \"difficulty\": \"EASY\",\r\n    \"correctOption\": \"Abuja\",\r\n    \"type\": \"TRUE_OR_FALSE\",\r\n    \"mark\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/admin/create-question",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"admin",
+								"create-question"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add question",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"subject\": \"Current Affairs\",\r\n    \"question\": \"What is the federal capital of Nigeria?\",\r\n    \"options\": [\r\n        \"Abuja\",\r\n        \"Ilorin\",\r\n        \"Ikeja\",\r\n        \"Osogbo\"\r\n    ],\r\n    \"difficulty\": \"EASY\",\r\n    \"correctOption\": \"Abuja\",\r\n    \"type\": \"MULTIPLE_CHOICE\",\r\n    \"mark\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localhost}}/admin/create-question",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"admin",
+										"create-question"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "56"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"38-AIBRYeSUWqFwyfiloNXivPLN19Y\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 08 Feb 2024 09:54:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Question added successfully\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update question",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // \"subject\": \"Current Affairs\",\r\n    // \"question\": \"What is the federal capital of Nigeria?\",\r\n    \"options\": [\r\n        \"Abuja\",\r\n        \"IKeja\",\r\n        \"Lafia\",\r\n        \"Osogbo\"\r\n    ]\r\n    // \"difficulty\": \"EASY\",\r\n    // \"correctOption\": \"Abuja\",\r\n    // \"type\": \"MULTIPLE_CHOICE\",\r\n    // \"mark\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/admin/update-question/:id",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"admin",
+								"update-question",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update question",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    // \"subject\": \"Current Affairs\",\r\n    // \"question\": \"What is the federal capital of Nigeria?\",\r\n    \"options\": [\r\n        \"Abuja\",\r\n        \"IKeja\",\r\n        \"Lafia\",\r\n        \"Osogbo\"\r\n    ]\r\n    // \"difficulty\": \"EASY\",\r\n    // \"correctOption\": \"Abuja\",\r\n    // \"type\": \"MULTIPLE_CHOICE\",\r\n    // \"mark\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localhost}}/admin/update-question/:id",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"admin",
+										"update-question",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "56"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"38-AIBRYeSUWqFwyfiloNXivPLN19Y\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 09 Feb 2024 21:45:13 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Question added successfully\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get question",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/admin/get-question/:id",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"admin",
+								"get-question",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get question",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localhost}}/admin/get-question/:id",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"admin",
+										"get-question",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "360"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"168-pGdpj6UTwW46majDASPjHeY5QEo\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 09 Feb 2024 21:46:12 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Question fetched successfully\",\n    \"data\": {\n        \"id\": \"6\",\n        \"subject\": \"Current Affairs\",\n        \"question\": \"What is the federal capital of Nigeria?\",\n        \"type\": \"MULTIPLE_CHOICE\",\n        \"difficulty\": \"EASY\",\n        \"options\": [\n            \"Abuja\",\n            \"Ilorin\",\n            \"Ikeja\",\n            \"Osogbo\"\n        ],\n        \"correctOption\": \"Abuja\",\n        \"mark\": 10,\n        \"createdAt\": \"2024-02-08T19:35:15.198Z\",\n        \"updatedAt\": \"2024-02-08T19:35:15.198Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete question",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/admin/get-question/:id",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"admin",
+								"get-question",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all questions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/admin/get-all-questions?page=&limit=&difficulty=EASY&type=MULTIPLE_CHOICE&subject=Current Affairs",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"admin",
+								"get-all-questions"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "",
+									"description": "default value of 1 is used when it is not provided."
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "optional - default value of 50 is used when param is not provided."
+								},
+								{
+									"key": "difficulty",
+									"value": "EASY",
+									"description": "optional parameter"
+								},
+								{
+									"key": "type",
+									"value": "MULTIPLE_CHOICE",
+									"description": "optional parameter"
+								},
+								{
+									"key": "subject",
+									"value": "Current Affairs",
+									"description": "optional parameter"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "localhost",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "admin",
+			"value": ""
+		},
+		{
+			"key": "user",
+			"value": ""
+		}
+	]
+}
